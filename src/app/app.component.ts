@@ -13,7 +13,6 @@ export class AppComponent implements OnInit {
 
   isCustomTip: boolean = false;
   selectedTip: number = NaN;
-  isFormSubmit: boolean = false;
   form!: FormGroup;
 
   tipAmountPerPerson: number = 0;
@@ -35,6 +34,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  get f() { return this.form.controls; }
+
+  // Calculates Tip and total Bill and Per Person Amount
   calculate() {
     let bill = this.f['bill'].value;
     let tip = this.isCustomTip ? this.f['customTip'].value : this.f['tip'].value;
@@ -46,20 +48,21 @@ export class AppComponent implements OnInit {
     this.totalPerPerson = this.totalBill / people;
   }
 
+  // Custom Tip Field is changed
   customTipChange() {
     this.isCustomTip = true;
     this.selectedTip = NaN;
     this.calculate();
   }
 
-  get f() { return this.form.controls; }
-
+  // Tip Button Active 
   tipSelected(t: number) {
     this.selectedTip = t;
     this.f['tip'].setValue(t);
     this.calculate();
   }
 
+  // Resets Form
   reset() {
     this.form.reset();
     this.selectedTip = NaN;
